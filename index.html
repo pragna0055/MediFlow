@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediFlow AI | AI Healthcare Assistant</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e0f7fa, #f8fffe, #e8f5e9);
+      color: #123;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f766e;
+    }
+
+    .badge {
+      background: #ccfbf1;
+      color: #0f766e;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: 48px;
+      line-height: 1.1;
+      margin-bottom: 18px;
+      color: #064e3b;
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      color: #475569;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .features {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .feature {
+      background: white;
+      padding: 10px 14px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+      font-size: 14px;
+      color: #0f766e;
+      font-weight: 600;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 25px 60px rgba(15, 118, 110, 0.18);
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    .card h2 {
+      color: #064e3b;
+      margin-bottom: 8px;
+      font-size: 26px;
+    }
+
+    .card p {
+      color: #64748b;
+      margin-bottom: 22px;
+      font-size: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    textarea,
+    input {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #dbeafe;
+      border-radius: 16px;
+      outline: none;
+      font-size: 15px;
+      margin-bottom: 18px;
+      background: #f8fafc;
+    }
+
+    textarea:focus,
+    input:focus {
+      border-color: #14b8a6;
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.12);
+      background: white;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      padding: 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #0f766e, #14b8a6);
+      color: white;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(15, 118, 110, 0.25);
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .quick-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .quick-buttons span {
+      padding: 8px 12px;
+      background: #ecfeff;
+      border: 1px solid #99f6e4;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #0f766e;
+      font-weight: 600;
+    }
+
+    .result-box {
+      margin-top: 24px;
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 20px;
+      border-left: 5px solid #14b8a6;
+      white-space: pre-wrap;
+      line-height: 1.7;
+      color: #334155;
+      min-height: 90px;
+    }
+
+    .loader {
+      display: none;
+      margin-top: 14px;
+      text-align: center;
+      color: #0f766e;
+      font-weight: 700;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 45px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    @media (max-width: 850px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-text h1 {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo">MediFlow AI</div>
+      <div class="badge">AI Healthcare Assistant</div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Smart health guidance powered by AI.</h1>
+        <p>
+          Enter your symptoms and MediFlow AI will generate a simple health summary,
+          emergency status, doctor recommendation, diet advice, fitness guidance,
+          and mental wellness support.
+        </p>
+
+        <div class="features">
+          <div class="feature">Emergency Check</div>
+          <div class="feature">Doctor Recommendation</div>
+          <div class="feature">Email Report</div>
+          <div class="feature">Multi-Agent AI</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Check Your Symptoms</h2>
+        <p>Enter your name, symptoms, and email to receive your AI health report.</p>
+
+        <label for="name">Patient Name</label>
+        <input id="name" type="text" placeholder="Enter your name" />
+
+        <label for="symptoms">Symptoms</label>
+        <textarea id="symptoms" placeholder="Example: fever and cold"></textarea>
+
+        <div class="quick-buttons">
+          <span onclick="setSymptom('fever and cold')">Fever & Cold</span>
+          <span onclick="setSymptom('cough and headache')">Cough & Headache</span>
+          <span onclick="setSymptom('stomach pain and vomiting')">Stomach Pain</span>
+          <span onclick="setSymptom('chest pain and breathing issue')">Emergency</span>
+        </div>
+
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="example@gmail.com" />
+
+        <button id="btn" onclick="checkHealth()">Generate Health Report</button>
+
+        <div class="loader" id="loader">Analyzing symptoms... please wait</div>
+
+        <div class="result-box" id="result">
+Your AI health report will appear here.
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      © 2026 MediFlow AI | This is an AI assistant, not a replacement for a doctor.
+    </div>
+  </div>
+
+  <script>
+    const WEBHOOK_URL = "https://learnersbyte1.app.n8n.cloud/webhook/health-ai";
+
+    function setSymptom(text) {
+      document.getElementById("symptoms").value = text;
+    }
+
+    async function checkHealth() {
+      const name = document.getElementById("name").value.trim();
+      const symptoms = document.getElementById("symptoms").value.trim();
+      const email = document.getElementById("email").value.trim();
+
+      const result = document.getElementById("result");
+      const loader = document.getElementById("loader");
+      const btn = document.getElementById("btn");
+
+      if (!name) {
+        result.innerText = "Please enter your name.";
+        return;
+      }
+
+      if (!symptoms) {
+        result.innerText = "Please enter your symptoms.";
+        return;
+      }
+
+      if (!email) {
+        result.innerText = "Please enter your email.";
+        return;
+      }
+
+      try {
+        btn.disabled = true;
+        loader.style.display = "block";
+        result.innerText = "";
+
+        const response = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: name,
+            symptoms: symptoms,
+            email: email
+          })
+        });
+
+        const data = await response.json();
+
+        result.innerText = data.result || "Report generated successfully. Please check your email.";
+      } catch (error) {
+        result.innerText = "Something went wrong. Please check your n8n webhook and try again.";
+        console.error(error);
+      } finally {
+        btn.disabled = false;
+        loader.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
